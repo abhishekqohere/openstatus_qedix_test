@@ -46,7 +46,7 @@ const OSSFriendSchema = z.object({
 export default async function Page() {
   const res = await fetch("https://formbricks.com/api/oss-friends");
   const data = await res.json();
-  const openSourceFriends = z.array(OSSFriendSchema).parse(data.data);
+  const openSourceFriends = data.data as z.infer<typeof OSSFriendSchema>[];
   return (
     <section className="prose dark:prose-invert max-w-none">
       <h1>OSS Friends</h1>
