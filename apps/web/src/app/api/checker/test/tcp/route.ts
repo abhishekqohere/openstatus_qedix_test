@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     if (!(e instanceof TargetUnreachableError)) {
       console.error(e);
     }
-    return NextResponse.json({ success: false }, { status: 400 });
+    return NextResponse.json({ success: false }, { status: 200 });
   }
 }
 async function checkTCP(url: string, region: Region) {
