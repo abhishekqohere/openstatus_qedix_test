@@ -676,7 +676,6 @@ export const monitorServiceImpl: ServiceImpl<typeof MonitorService> = {
 
     const row = run.monitor;
     const url = getCheckerUrl(row);
-    const timeout = getCheckerTimeout(row);
 
     // Trigger checks for each region in parallel
     await Promise.all(
@@ -692,7 +691,6 @@ export const monitorServiceImpl: ServiceImpl<typeof MonitorService> = {
           },
           method: "POST",
           body: JSON.stringify(payload),
-          signal: AbortSignal.timeout(timeout),
         });
       }),
     );
