@@ -137,7 +137,7 @@ export async function POST(request: Request) {
       );
     }
   } catch (err) {
-    console.error("Docs feedback: failed to post to Slack", err);
+    console.error(err);
   }
 
   return Response.json({ success: true });
