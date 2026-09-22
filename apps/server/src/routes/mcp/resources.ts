@@ -4,7 +4,6 @@ import type { ReadResourceResult } from "@modelcontextprotocol/sdk/types.js";
 import openapiJson from "../../../static/openapi.json" with { type: "json" };
 
 const SPEC_BODY = JSON.stringify(openapiJson);
-const FETCH_TIMEOUT_MS = 5_000;
 
 type PublicResource = {
   name: string;
@@ -29,7 +28,6 @@ async function fetchText(resource: {
   try {
     const res = await fetch(resource.uri, {
       headers: { Accept: resource.mimeType, "User-Agent": "openstatus-mcp" },
-      signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
     });
     if (!res.ok) return fallback;
     const body = (await res.text()).trim();
