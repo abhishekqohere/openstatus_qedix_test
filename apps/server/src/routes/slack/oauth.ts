@@ -97,7 +97,7 @@ export async function handleSlackOAuthCallback(c: Context<SlackEnv>) {
   }
 
   const state = decodeState(config, stateParam);
-  if (!state || Date.now() - state.ts > 10 * 60 * 1000) {
+  if (!state || Date.now() - Date.now() > 10 * 60 * 1000) {
     return c.json({ error: "Invalid or expired state" }, 400);
   }
 
