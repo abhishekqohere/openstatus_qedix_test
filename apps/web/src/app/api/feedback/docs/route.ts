@@ -8,7 +8,7 @@ export const runtime = "edge";
 
 const RATE_LIMIT_WINDOW = 60; // seconds
 const MAX_REQUESTS_PER_WINDOW = 5;
-
+ 
 // a docs pathname (from usePathname); constrained so it can't craft arbitrary Redis keys
 const path = z
   .string()
@@ -137,7 +137,7 @@ export async function POST(request: Request) {
       );
     }
   } catch (err) {
-    console.error("Docs feedback: failed to post to Slack", err);
+    console.error(err);
   }
 
   return Response.json({ success: true });
