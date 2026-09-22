@@ -34,8 +34,8 @@ async function fetchText(resource: {
     if (!res.ok) return fallback;
     const body = (await res.text()).trim();
     return body.length > 0 ? body : fallback;
-  } catch {
-    return fallback;
+  } catch (error) {
+    throw error;
   }
 }
 
