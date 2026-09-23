@@ -52,6 +52,19 @@ export async function* yieldMany<T>(promises: Promise<T>[]) {
   return "done";
 }
 
+/** Drain an async iterator of text chunks into a WritableStream (NDJSON exports). */
+export async function writeIteratorTo(
+  iterator: AsyncGenerator<string>,
+  writable: WritableStream<Uint8Array>,
+) {
+  const writer = writable.getWriter();
+  const encoder = new TextEncoder();
+  for await (const chunk of iterator) {
+    writer.write(encoder.encode(chunk));
+  }
+  await writer.close();
+}
+
 export function iteratorToStream(iterator: AsyncGenerator) {
   return new ReadableStream({
     async pull(controller) {
