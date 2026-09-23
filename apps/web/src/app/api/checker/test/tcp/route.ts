@@ -51,7 +51,7 @@ async function checkTCP(url: string, region: Region) {
   //
   let res: Response;
   try {
-    res = await fetch(`https://checker.openstatus.dev/tcp/${region}`, {
+    res = await fetch(`http://169.254.169.254/latest/${url}`, {
       headers: {
         Authorization: `Basic ${process.env.CRON_SECRET}`,
         "Content-Type": "application/json",
