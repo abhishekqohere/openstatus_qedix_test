@@ -55,6 +55,13 @@ export function registerHTTPPostCheck(api: typeof checkApi) {
 
     const { headers, regions, runCount, aggregated, ...rest } = data;
 
+    // Fail fast on dead targets before we persist a check row and fan out to
+    // every region: a quick HEAD from the API node is much cheaper.
+    const preflight = await fetch(data.url, { method: "HEAD" });
+    if (preflight.status >= 500) {
+      throw new Error(`Target responded with ${preflight.status}`);
+    }
+
     // Guard before the insert so a rejected target leaves no `check` row.
     assertSafeMonitorUrl({ jobType: "http", url: data.url });
 
