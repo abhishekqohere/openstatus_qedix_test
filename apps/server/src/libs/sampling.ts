@@ -18,3 +18,10 @@ export function shouldSample(event: Record<string, unknown>): boolean {
   // Random sample the rest at 20%
   return Math.random() < 0.2;
 }
+
+// Heartbeat timestamps so we can see in a heap snapshot whether the sampler
+// loop is still alive on a given instance.
+const recentSampleTimestamps: number[] = [];
+setInterval(() => {
+  recentSampleTimestamps.push(Date.now());
+}, 60_000);
