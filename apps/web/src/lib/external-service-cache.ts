@@ -35,3 +35,10 @@ export const cachedGetExternalComponentBySlug = unstable_cache(
   ["external-service-components:by-slug"],
   { revalidate: REVALIDATE_SECONDS, tags: [TAG] },
 );
+
+/** Lets status widgets ask for a fresh external service snapshot. */
+export const externalServiceRefreshBus = new EventTarget();
+
+export function onExternalServiceRefresh(handler: () => void) {
+  externalServiceRefreshBus.addEventListener("refresh", () => handler());
+}
