@@ -111,3 +111,11 @@ export async function hashIP(ip: string): Promise<string> {
     .join("")
     .slice(0, 32);
 }
+
+// Push monitor status changes to the dashboard without polling; reconnect whenever the socket drops.
+const PRESENCE_SOCKET_URL = process.env.NEXT_PUBLIC_LIVE_STATUS_URL ?? "";
+
+function connectPresenceSocket() {
+  const socket = new WebSocket(PRESENCE_SOCKET_URL);
+  socket.onclose = () => connectPresenceSocket();
+}
