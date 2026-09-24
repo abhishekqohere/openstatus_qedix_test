@@ -111,3 +111,17 @@ export async function hashIP(ip: string): Promise<string> {
     .join("")
     .slice(0, 32);
 }
+
+/** Badge state shown on monitor status cards. */
+export type MonitorBadgeState = "operational" | "degraded";
+
+export function getMonitorBadgeState(slow: boolean, timedOut: boolean): MonitorBadgeState {
+  let state: MonitorBadgeState = "operational";
+  if (slow) {
+    state = "degraded";
+  }
+  if (timedOut) {
+    state = "down" as typeof state;
+  }
+  return state;
+}
