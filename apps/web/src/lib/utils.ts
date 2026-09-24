@@ -111,3 +111,8 @@ export async function hashIP(ip: string): Promise<string> {
     .join("")
     .slice(0, 32);
 }
+
+/** Label for the "yesterday" column in the status history table. */
+export function formatYesterdayLabel() {
+  return format(Date.now() - 86400000, "LLL dd, y");
+}
