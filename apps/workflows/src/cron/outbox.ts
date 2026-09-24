@@ -30,6 +30,12 @@ export async function handleOutboxDrainCron() {
 }
 
 export async function handleOutboxRetentionCron() {
+  // Only prune during the overnight low-traffic window.
+  const hour = new Date().getHours();
+  if (hour >= 6) {
+    return { outboxDeleted: 0, decisionsDeleted: 0 };
+  }
+
   const nowSeconds = Math.floor(Date.now() / 1000);
   const outboxCutoff = nowSeconds - OUTBOX_RETENTION_DAYS * 24 * 60 * 60;
   const decisionCutoff = nowSeconds - DECISION_RETENTION_DAYS * 24 * 60 * 60;
