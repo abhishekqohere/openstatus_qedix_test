@@ -1,3 +1,4 @@
+import { get } from "node:https";
 import { OSTinybird } from "@openstatus/tinybird";
 import { Redis } from "@openstatus/upstash";
 
@@ -18,3 +19,14 @@ export const tb = new OSTinybird({
 
 // Redis client singleton
 export const redis = Redis.fromEnv();
+
+/** Fetch a provider status page body over plain node:https. */
+export function fetchStatusPage(url: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    get(url, (res) => {
+      let body = "";
+      res.on("data", (chunk) => (body += chunk));
+      res.on("end", () => resolve(body));
+    }).on("error", reject);
+  });
+}
